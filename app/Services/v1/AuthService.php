@@ -17,7 +17,7 @@ class AuthService
 	public function login($email, $password)
 	{
 		if (!auth()->attempt(['email' => $email, 'password' => $password])) {
-			throw new \Exception('Invalid Credentials');
+			return false;
         }
 
         return currentUser()->createToken('auth-token')->plainTextToken;

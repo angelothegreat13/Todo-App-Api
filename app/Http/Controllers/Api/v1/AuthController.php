@@ -24,14 +24,18 @@ class AuthController extends Controller
     {
         $authToken = $this->authService->login($request->email, $request->password);
 
-        return $this->success('success',[
+        if (!$authToken) {
+            return $this->error('Invalid Credentials', null, 401);
+        }
+
+        return $this->success('Login Success',[
             'token' => $authToken
         ]);
     }
 
     public function register(RegisterRequest $request)
     {
-        $this->authService->register($request->validated());
+        $register = $this->authService->register($request->validated());
 
         return $this->success('Registration Success', null, 201);
     }

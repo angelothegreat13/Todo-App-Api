@@ -2,32 +2,54 @@
 
 namespace Tests\Feature\v1;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
+use App\Services\v1\AuthService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthFeatureTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase;
 
     /** @test */
     public function a_user_can_register()
     {
-        $userData = [
-            'name' => $this->faker->name,
-            'email' => $this->faker->unique()->safeEmail,
+        $response = $this->postJson(route('auth.register'),[
+            'name' => 'John Doe',
+            'email' => 'johndoe@gmail.com',
             'password' => 'password',
-            'password_confirmation' => 'password'
-        ];
+            'password_confirmation' => 'password' 
+        ]);
 
-        $response = $this->postJson(route('auth.register'), $userData);
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'success',
+                'message'
+            ]);
 
-        $response->assertStatus(201);
+        $this->assertDatabaseHas('users',[
+            'name' => 'John Doe',
+            'email' => 'johndoe@gmail.com'
+        ]);
     }
 
     /** @test */
     public function a_user_can_login()
     {
+        $user = User::factory()->create();
 
+        $response = $this->postJson(route('auth.login'), [
+            'email' => $user->email,
+            'password' => 'password'
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'message',
+                'data' => [
+                    'token'
+                ]
+            ]);
     }
 }
