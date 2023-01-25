@@ -5,6 +5,7 @@ namespace Tests\Feature\v1;
 use Tests\TestCase;
 use App\Models\User;
 use App\Services\v1\AuthService;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthFeatureTest extends TestCase
@@ -12,7 +13,7 @@ class AuthFeatureTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_register()
+    public function it_can_register_user()
     {
         $response = $this->postJson(route('auth.register'),[
             'name' => 'John Doe',
@@ -34,7 +35,7 @@ class AuthFeatureTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_login()
+    public function it_can_login_user()
     {
         $user = User::factory()->create();
 

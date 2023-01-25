@@ -16,15 +16,14 @@ class AuthService
 
 	public function login($email, $password)
 	{
-		if (!auth()->attempt(['email' => $email, 'password' => $password])) {
-			return false;
+		if (auth()->attempt(['email' => $email, 'password' => $password])) {
+	        $user = $this->userRepository->findByEmail($email);
+	        return $user->createToken('authToken')->plainTextToken;
         }
-
-        return currentUser()->createToken('auth-token')->plainTextToken;
 	}
 
 	public function register(array $userData)
 	{
-		$this->userRepository->create($userData);
+		return $this->userRepository->create($userData);
 	}
 }
