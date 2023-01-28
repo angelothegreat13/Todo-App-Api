@@ -14,7 +14,7 @@ class AuthUnitTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_generate_token()
+    public function it_can_generate_token_when_email_and_password_are_valid()
     {
         $user = User::factory()->create();
         $userRepository = new UserRepository;
@@ -33,11 +33,11 @@ class AuthUnitTest extends TestCase
             'password' => 'password',
             'password_confirmation' => 'password'
         ];
-        
+
         $userRepository = new UserRepository;
         $authService = new AuthService($userRepository);
         $user = $authService->register($data);
-
+        
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals($data['name'], $user->name);
         $this->assertEquals($data['email'], $user->email);

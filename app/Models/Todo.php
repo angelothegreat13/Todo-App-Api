@@ -17,10 +17,9 @@ class Todo extends Model
         'due_date'
     ];
 
-    /*
-        'message' => 'Success',
-        data => [
-            'users' => $user
-        ]
-    */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+   
 }

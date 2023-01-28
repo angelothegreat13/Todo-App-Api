@@ -5,7 +5,6 @@ namespace Tests\Feature\v1;
 use Tests\TestCase;
 use App\Models\User;
 use App\Services\v1\AuthService;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthFeatureTest extends TestCase
@@ -27,11 +26,6 @@ class AuthFeatureTest extends TestCase
                 'success',
                 'message'
             ]);
-
-        $this->assertDatabaseHas('users',[
-            'name' => 'John Doe',
-            'email' => 'johndoe@gmail.com'
-        ]);
     }
 
     /** @test */

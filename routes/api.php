@@ -7,7 +7,6 @@ use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\TodoController;
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
-
     // todos
     Route::get('/todos', [TodoController::class, 'index'])->name('todos.index');
     Route::get('/todos/{todo}',[TodoController::class, 'show'])->name('todos.show');
@@ -17,7 +16,6 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 }); 
 
 Route::prefix('v1')->group(function () {
-    
     // auth
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('/register',[AuthController::class, 'register'])->name('auth.register');
